@@ -1,3 +1,21 @@
-const Barralateral = () => <aside>barra lateral</aside>
+import FiltroCard from '../../components/FiltroCard'
+
+import * as S from './styles'
+
+const Barralateral = () => (
+  <S.Aside>
+    <div>
+      <S.Campo type="text" placeholder="Buscar" />
+      <S.Filtros>
+        <FiltroCard />
+        <FiltroCard />
+        <FiltroCard />
+        <FiltroCard />
+        <FiltroCard />
+        <FiltroCard ativo />
+      </S.Filtros>
+    </div>
+  </S.Aside>
+)
 
 export default Barralateral
