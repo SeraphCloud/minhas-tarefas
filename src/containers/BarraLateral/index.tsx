@@ -3,11 +3,18 @@ import FiltroCard from '../../components/FiltroCard'
 import { RootReducer } from '../../store'
 
 import * as S from './styles'
+import { Botao, Campo } from '../../styles'
 import { alterarTermo } from '../../store/reducers/filtro'
 import * as enums from '../../utils/enums/Tarefa'
+import { useNavigate } from 'react-router-dom'
 
-const Barralateral = () => {
+type Props = {
+  mostrarFiltros: boolean
+}
+
+const Barralateral = ({ mostrarFiltros }: Props) => {
   const dispatch = useDispatch()
+  const navigate = useNavigate()
 
   const { termo, criterio, valor } = useSelector(
     (state: RootReducer) => state.filtro
@@ -34,61 +41,71 @@ const Barralateral = () => {
   return (
     <S.Aside>
       <div>
-        <S.Campo
-          type="text"
-          placeholder="Buscar"
-          value={termo}
-          onChange={(e) => dispatch(alterarTermo(e.target.value))}
-        />
-        <S.Filtros>
-          <FiltroCard
-            valor={enums.Status.PENDENTE}
-            criterio="status"
-            legenda="pendentes"
-            contador={contadorPendentes}
-            ativo={criterio === 'status' && valor === enums.Status.PENDENTE}
-          />
-          <FiltroCard
-            valor={enums.Status.CONCLUIDA}
-            criterio="status"
-            legenda="concluídas"
-            contador={contadorConcluidas}
-            ativo={criterio === 'status' && valor === enums.Status.CONCLUIDA}
-          />
-          <FiltroCard
-            valor={enums.Prioridade.URGENTE}
-            criterio="prioridade"
-            legenda="urgentes"
-            contador={contadorUrgentes}
-            ativo={
-              criterio === 'prioridade' && valor === enums.Prioridade.URGENTE
-            }
-          />
-          <FiltroCard
-            valor={enums.Prioridade.IMPORTANTE}
-            criterio="prioridade"
-            legenda="importantes"
-            contador={contadorImportantes}
-            ativo={
-              criterio === 'prioridade' && valor === enums.Prioridade.IMPORTANTE
-            }
-          />
-          <FiltroCard
-            valor={enums.Prioridade.NORMAL}
-            criterio="prioridade"
-            legenda="normal"
-            contador={contadorNormal}
-            ativo={
-              criterio === 'prioridade' && valor === enums.Prioridade.NORMAL
-            }
-          />
-          <FiltroCard
-            criterio="todas"
-            legenda="todas"
-            contador={contadorTodas}
-            ativo={criterio === 'todas'}
-          />
-        </S.Filtros>
+        {mostrarFiltros ? (
+          <>
+            <Campo
+              type="text"
+              placeholder="Buscar"
+              value={termo}
+              onChange={(e) => dispatch(alterarTermo(e.target.value))}
+            />
+            <S.Filtros>
+              <FiltroCard
+                valor={enums.Status.PENDENTE}
+                criterio="status"
+                legenda="pendentes"
+                contador={contadorPendentes}
+                ativo={criterio === 'status' && valor === enums.Status.PENDENTE}
+              />
+              <FiltroCard
+                valor={enums.Status.CONCLUIDA}
+                criterio="status"
+                legenda="concluídas"
+                contador={contadorConcluidas}
+                ativo={
+                  criterio === 'status' && valor === enums.Status.CONCLUIDA
+                }
+              />
+              <FiltroCard
+                valor={enums.Prioridade.URGENTE}
+                criterio="prioridade"
+                legenda="urgentes"
+                contador={contadorUrgentes}
+                ativo={
+                  criterio === 'prioridade' &&
+                  valor === enums.Prioridade.URGENTE
+                }
+              />
+              <FiltroCard
+                valor={enums.Prioridade.IMPORTANTE}
+                criterio="prioridade"
+                legenda="importantes"
+                contador={contadorImportantes}
+                ativo={
+                  criterio === 'prioridade' &&
+                  valor === enums.Prioridade.IMPORTANTE
+                }
+              />
+              <FiltroCard
+                valor={enums.Prioridade.NORMAL}
+                criterio="prioridade"
+                legenda="normal"
+                contador={contadorNormal}
+                ativo={
+                  criterio === 'prioridade' && valor === enums.Prioridade.NORMAL
+                }
+              />
+              <FiltroCard
+                criterio="todas"
+                legenda="todas"
+                contador={contadorTodas}
+                ativo={criterio === 'todas'}
+              />
+            </S.Filtros>
+          </>
+        ) : (
+          <Botao onClick={() => navigate('/')}>Voltar</Botao>
+        )}
       </div>
     </S.Aside>
   )
